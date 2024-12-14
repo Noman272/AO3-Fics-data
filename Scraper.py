@@ -43,7 +43,7 @@ title= soup.find('h2').text.replace("\n",'').strip()
 while findNext() != None:
     Fic = requests.get(site+fic)
     soup = BS(Fic.text, "html.parser")
-    counts.append(getWords()[0])
+    counts.append(getWords())
     fic = findNext()
 
 plt.plot(counts)
