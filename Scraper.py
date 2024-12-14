@@ -40,7 +40,6 @@ Fic = requests.get(site+fic)
 soup = BS(Fic.text, "html.parser")
 title= soup.find('h2').text.replace("\n",'').strip()
 
-t = time.time()
 while findNext() != None:
     Fic = requests.get(site+fic)
     soup = BS(Fic.text, "html.parser")
