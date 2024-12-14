@@ -5,10 +5,12 @@ import string
 
 
 site = "https://archiveofourown.org"
-    fic = "/works/58203763/chapters/148205701"
+
+#put the suffix of the fic here
+fic = "/works/58203763/chapters/148205701"
 
 
-
+#traversing through the chapters
 def findNext():
     for i in soup.findAll('a'):
         if "Next Chapter →" in i:
@@ -17,22 +19,20 @@ def findNext():
 
 
 def getWords():
-    words=[]
-    dic = {}
     chapter = soup.find('div',attrs={"class":"userstuff module"})
-    
-    output = chapter.text    
+    output = chapter.text   #making changes to chapter.text itself doesn't work well 
 
+    #getting rid of punctuations
     for c in string.punctuation:
         output = output.replace(c," ")
+        
     output = output.replace("\n",'')
     output = output.replace("’",'')
     output = output.replace("‘",'')
     output = output.replace("”",'')
     output = output.replace("“",'')
 
-    print(output.split())
-    return (len(output.split())-2)
+    return (len(output.split())-2) #because the find function takes 2 extra words
 
 
 counts=[]
@@ -46,7 +46,6 @@ while findNext() != None:
     soup = BS(Fic.text, "html.parser")
     counts.append(getWords()[0])
     fic = findNext()
-    print(len(counts))
 
 plt.plot(counts)
 plt.title(title)
@@ -54,4 +53,3 @@ plt.xlabel('Chapter')
 plt.ylabel('Words')
 
 plt.show()
-
