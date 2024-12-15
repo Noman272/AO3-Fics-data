@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup as BS
 import requests
+import matplotlib
 import matplotlib.pyplot as plt
-import string
 
 
+punctuation='!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~’‘”“'
 site = "https://archiveofourown.org"
 
 #put the suffix of the fic here
@@ -23,14 +24,10 @@ def getWords():
     output = chapter.text   #making changes to chapter.text itself doesn't work well 
 
     #getting rid of punctuations
-    for c in string.punctuation:
-        output = output.replace(c," ")
-        
+    for c in punctuation:
+        output = output.replace(c," ")        
     output = output.replace("\n",'')
-    output = output.replace("’",'')
-    output = output.replace("‘",'')
-    output = output.replace("”",'')
-    output = output.replace("“",'')
+
 
     return (len(output.split())-2) #because the find function takes 2 extra words
 
@@ -46,9 +43,19 @@ while findNext() != None:
     counts.append(getWords())
     fic = findNext()
 
-plt.plot(counts)
+
+plt.style.use('classic')
+plt.rcParams["figure.dpi"] = 150
+
+plt.plot([i for i in range(1,len(counts)+1)],counts, color="#12ACAE")
+
+plt.xlim(1, len(counts)+1)
+plt.ylim(0, max(counts)+2000)
 plt.title(title)
+plt.tight_layout(pad=2)
 plt.xlabel('Chapter')
 plt.ylabel('Words')
+plt.grid()
+plt.savefig(f"{title}_{len(counts)}.png")
 
 plt.show()
